@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', App::getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="description" content="@yield('page_description', 'This is a fun social website to share your hobbies')">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('page_title', 'My Hobbies')</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -23,8 +23,8 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand" href='/'>
+                    {{ config('app.name', 'myapp') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -33,19 +33,27 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li><a class="nav-link{{Request::is("/") ? " active" : ""}}" href='/'>{{trans('main.Home')}}</a></li>
+                        <li><a class="nav-link{{Request::is("info") ? " active" : ""}}" href='/info'>{{trans('main.Info')}}</a></li>
+                        <li><a class="nav-link{{Request::is("hobby*") ? " active" : ""}}" href='/hobby'>{{trans('main.Hobbies')}}</a></li>
+                        <li><a class="nav-link{{Request::is("tag*") ? " active" : ""}}" href='/tag'>{{trans('main.Tags')}}</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        <li class="nav-item lang">
+                            <a class="nav-link"
+                                    href="{{app()->getLocale() == 'en' ? '/lang/ar' : '/lang/en'}}"
+                                    >{{ app()->getLocale() == 'en' ? 'العربية' : 'English' }}</a>
+                        </li>
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href='/login'>{{ trans('main.Login') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href='/register'>{{ trans('main.Register') }}</a>
                                 </li>
                             @endif
                         @else
@@ -73,6 +81,41 @@
         </nav>
 
         <main class="py-4">
+
+            @isset($message_success)
+            <div class="container">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {!! $message_success !!}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                </div>
+            </div>
+            @endisset
+
+            @isset($message_warning)
+            <div class="container">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {!! $message_warning !!}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                </div>
+            </div>
+            @endisset
+
+
+            {{-- @if($errors->any())
+            <div class="container">
+                <div class="alert alert-danger" role="alert">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{!! $error !!}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+            @endif --}}
             @yield('content')
         </main>
     </div>
