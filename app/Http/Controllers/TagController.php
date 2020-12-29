@@ -14,7 +14,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::all();
+        $tags = Tag::orderBy('created_at' , 'DESC')->paginate(10);
 
         return view('tag.index')->with([
             'tags' => $tags
@@ -46,7 +46,7 @@ class TagController extends Controller
 
 
         $tag = new Tag([
-            'name' => $request->name        
+            'name' => $request->name
         ]);
 
         $tag->save();

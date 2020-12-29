@@ -4585,6 +4585,15 @@ a.nav-link.active {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }*/
 
+@font-face {
+  font-family: "GEE SS Two";
+  src: url(/fonts/ArbFONTS-59GE-SS-Two.otf?2a6ac252aff58f2fdf8bcce8162aba31);
+}
+
+#lang {
+  font-family: "GEE SS Two", Georgia, serif;
+}
+
 /*!
  * Bootstrap v4.5.2 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors

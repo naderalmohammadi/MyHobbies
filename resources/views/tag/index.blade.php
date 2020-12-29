@@ -11,22 +11,29 @@
                     <ul class="list-group">
                         @foreach ($tags as $tag)
                             <li class="list-group-item">
-                            <h3 class="d-inline text-primary ">#{{ $tag->name }}</h3>
+                            <span style="font-size: 130%" class="badge badge-{{ $tag->style }}">{{ $tag->name }}</span>
+                            @auth
                             <a class="btn btn-sm btn-light ml-2" href="/tag/{{ $tag->id }}/edit"><i class="fas fa-edit"></i> Edit Tag</a>
                             <form class="float-right" style="display-inline" action="/tag/{{ $tag->id }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-sm btn-outline-danger" type="submit"><i class="fas fa-trash"></i> DELETE</button>
                             </form>
+                            @endauth
+                            <a class="float-right" href="/hobby/tag/{{ $tag->id }}">used {{$tag->hobbies->count()}} times</a>
                         </li>
                         @endforeach
                     </ul>
                 </div>
             </div>
-
             <div class="mt-2">
-                <a href="/tag/create" class="btn btn-success btn-sm"><i class="fas fa-plus-circle"></i> Create a new tag</a>
+                {{ $tags->links() }}
             </div>
+            @auth
+            <div class="mt-2">
+                <a href="/tag/create" class="btn btn-success"><i class="fas fa-plus-circle"></i> Create a new tag</a>
+            </div>
+            @endauth
         </div>
     </div>
 </div>

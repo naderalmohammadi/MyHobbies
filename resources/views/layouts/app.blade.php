@@ -33,16 +33,21 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li><a class="nav-link{{Request::is("/") ? " active" : ""}}" href='/'>{{trans('main.Home')}}</a></li>
-                        <li><a class="nav-link{{Request::is("info") ? " active" : ""}}" href='/info'>{{trans('main.Info')}}</a></li>
-                        <li><a class="nav-link{{Request::is("hobby*") ? " active" : ""}}" href='/hobby'>{{trans('main.Hobbies')}}</a></li>
-                        <li><a class="nav-link{{Request::is("tag*") ? " active" : ""}}" href='/tag'>{{trans('main.Tags')}}</a></li>
+                        @auth
+                            <li><a class="nav-link{{Request::is('home') ? ' active' : ''}}" href='/home'>{{trans('main.Home')}}</a></li>
+                        @endauth
+                        @guest
+                            <li><a class="nav-link{{Request::is('/') ? ' active' : ''}}" href='/'>{{trans('main.Home')}}</a></li>
+                        @endguest
+                        <li><a class="nav-link{{Request::is('info') ? ' active' : ''}}" href='/info'>{{trans('main.Info')}}</a></li>
+                        <li><a class="nav-link{{Request::is('hobby*') ? ' active' : ''}}" href='/hobby'>{{trans('main.Hobbies')}}</a></li>
+                        <li><a class="nav-link{{Request::is('tag*') ? ' active' : ''}}" href='/tag'>{{trans('main.Tags')}}</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item lang">
-                            <a class="nav-link"
+                        <a id={{ app()->getLocale() == 'en' ? "lang" : "_" }} class="nav-link"
                                     href="{{app()->getLocale() == 'en' ? '/lang/ar' : '/lang/en'}}"
                                     >{{ app()->getLocale() == 'en' ? 'العربية' : 'English' }}</a>
                         </li>
