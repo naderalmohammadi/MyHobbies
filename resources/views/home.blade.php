@@ -3,18 +3,64 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-11">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h2>Hello {{ auth()->user()->name }}</h2>
+                            <h5>Your Motto</h5>
+                            <p><p>{{ auth()->user()->motto ?? '' }}</p></p>
+                            <h5>Your "About Me" -Text</h5>
+                            <p><p>{{ auth()->user()->about_me ?? '' }}</p></p>
+                            <a href="/user/{{auth()->id()}}/edit" class="btn btn-primary mb-4">Edit Profile</a>
                         </div>
-                    @endif
+                        @if(file_exists('img/users/' . auth()->id() . '_large.jpg'))
+                        <div class="col-md-3">
+                                <img class="img-fluid" src="/img/users/{{auth()->id()}}_large.jpg" alt="large">
+                        </div>
+                        @endif
+                    </div>
 
-                    {{ __('You are logged in!') }}
+
+
+                    @isset($hobbies)
+                        @if($hobbies->count() > 0)
+                        <h3>Your Hobbies:</h3>
+                        @endif
+                    <ul class="list-group">
+                        @foreach($hobbies as $hobby)
+                            <li class="list-group-item">
+                                @if(file_exists('img/hobbies/' . $hobby->id . '_thumb.jpg'))
+                                <a title="Show Details" href="/hobby/{{ $hobby->id }}">
+                                    <img src="/img/hobbies/{{$hobby->id}}_thumb.jpg" alt="thumb">
+                                </a>
+                            @endif
+                                <a title="Show Details" href="/hobby/{{ $hobby->id }}">{{ $hobby->name }}</a>
+                                @auth
+                                    <a class="btn btn-sm btn-light ml-2" href="/hobby/{{ $hobby->id }}/edit"><i class="fas fa-edit"></i> Edit Hobby</a>
+                                @endauth
+
+                                @auth
+                                    <form class="float-right" style="display: inline" action="/hobby/{{ $hobby->id }}" method="post">
+                                        @csrf
+                                        @method("DELETE")
+                                        <input class="btn btn-sm btn-outline-danger" type="submit" value="Delete">
+                                    </form>
+                                @endauth
+                                <span class="float-right mx-2">{{ $hobby->created_at->diffForHumans() }}</span>
+                                <br>
+                                @foreach($hobby->tags as $tag)
+                                    <a href="/hobby/tag/{{ $tag->id }}"><span class="badge badge-{{ $tag->style }}">{{ $tag->name }}</span></a>
+                                @endforeach
+                            </li>
+                        @endforeach
+                    </ul>
+                    @endisset
+
+                    <a class="btn btn-success btn-sm mt-4" href="/hobby/create"><i class="fas fa-plus-circle"></i> Create new Hobby</a>
                 </div>
             </div>
         </div>

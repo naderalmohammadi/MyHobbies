@@ -14,14 +14,17 @@ class TagSeeder extends Seeder
     public function run()
     {
         $tags = [
-            'boxing',
-            'soccer',
-            'swimming'
+            'boxing' => 'primary',
+            'soccer' => 'secondary',
+            'swimming' => 'danger',
+            'fun' => 'success',
+            'education' => 'light'
         ];
 
-        foreach ($tags as $name) {
+        foreach ($tags as $name => $style) {
             $tag = new Tag([
-                'name' => $name
+                'name' => $name,
+                'style' => $style
             ]);
 
             $tag->save();
