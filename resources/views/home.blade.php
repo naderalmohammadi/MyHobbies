@@ -15,10 +15,13 @@
                             <p><p>{{ auth()->user()->motto ?? '' }}</p></p>
                             <h5>Your "About Me" -Text</h5>
                             <p><p>{{ auth()->user()->about_me ?? '' }}</p></p>
+                            <a href="/user/{{auth()->id()}}/edit" class="btn btn-primary mb-4">Edit Profile</a>
                         </div>
+                        @if(file_exists('img/users/' . auth()->id() . '_large.jpg'))
                         <div class="col-md-3">
-                            <img class="img-thumbnail" src="/img/300x400.jpg" alt="{{ auth()->user()->name }}">
+                                <img class="img-fluid" src="/img/users/{{auth()->id()}}_large.jpg" alt="large">
                         </div>
+                        @endif
                     </div>
 
 
@@ -30,10 +33,12 @@
                     <ul class="list-group">
                         @foreach($hobbies as $hobby)
                             <li class="list-group-item">
+                                @if(file_exists('img/hobbies/' . $hobby->id . '_thumb.jpg'))
                                 <a title="Show Details" href="/hobby/{{ $hobby->id }}">
-                                    <img src="/img/thumb_landscape.jpg" alt="thumb"></a>
-                                    {{ $hobby->name }}
+                                    <img src="/img/hobbies/{{$hobby->id}}_thumb.jpg" alt="thumb">
                                 </a>
+                            @endif
+                                <a title="Show Details" href="/hobby/{{ $hobby->id }}">{{ $hobby->name }}</a>
                                 @auth
                                     <a class="btn btn-sm btn-light ml-2" href="/hobby/{{ $hobby->id }}/edit"><i class="fas fa-edit"></i> Edit Hobby</a>
                                 @endauth
@@ -55,7 +60,7 @@
                     </ul>
                     @endisset
 
-                    <a class="btn btn-success btn-sm" href="/hobby/create"><i class="fas fa-plus-circle"></i> Create new Hobby</a>
+                    <a class="btn btn-success btn-sm mt-4" href="/hobby/create"><i class="fas fa-plus-circle"></i> Create new Hobby</a>
                 </div>
             </div>
         </div>

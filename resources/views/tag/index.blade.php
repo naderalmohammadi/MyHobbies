@@ -20,7 +20,7 @@
                                 <button class="btn btn-sm btn-outline-danger" type="submit"><i class="fas fa-trash"></i> DELETE</button>
                             </form>
                             @endauth
-                            <a class="float-right" href="/hobby/tag/{{ $tag->id }}">used {{$tag->hobbies->count()}} times</a>
+                            <a class="float-right mr-2" href="/hobby/tag/{{ $tag->id }}">used {{$tag->hobbies->count()}} times.</a>
                         </li>
                         @endforeach
                     </ul>
